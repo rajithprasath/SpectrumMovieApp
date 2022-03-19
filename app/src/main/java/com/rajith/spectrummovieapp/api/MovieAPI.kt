@@ -70,8 +70,6 @@ interface MovieAPI {
         country: String = "en-US",
         @Query("query")
         searchQuery: String,
-        @Query("page")
-        pageNumber: Int = 1,
         @Query("api_key")
         apiKey: String = API_KEY
     ): Response<MovieResponse>
