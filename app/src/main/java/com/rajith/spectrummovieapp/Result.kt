@@ -1,10 +1,18 @@
 package com.rajith.spectrummovieapp
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(
+    tableName = "movies"
+)
 data class Result(
+    @PrimaryKey
+    val id: Int,
     val adult: Boolean,
     val backdrop_path: String,
     val genre_ids: List<Int>,
-    val id: Int,
+    val genres: List<Genre>,
     val original_language: String,
     val original_title: String,
     val overview: String,

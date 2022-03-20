@@ -1,7 +1,8 @@
 package com.rajith.spectrummovieapp.api
 
-import com.rajith.spectrummovieapp.MovieResponse
+import com.rajith.spectrummovieapp.GenreResponse
 import com.rajith.spectrummovieapp.MoviesResponse
+import com.rajith.spectrummovieapp.Result
 import com.rajith.spectrummovieapp.util.Constants.Companion.API_KEY
 import retrofit2.Response
 import retrofit2.http.GET
@@ -72,5 +73,11 @@ interface MovieAPI {
         searchQuery: String,
         @Query("api_key")
         apiKey: String = API_KEY
-    ): Response<MovieResponse>
+    ): Response<Result>
+
+    @GET("3/genre/movie/list")
+    suspend fun getGenres(
+        @Query("api_key")
+        apiKey: String = API_KEY
+    ): Response<GenreResponse>
 }
