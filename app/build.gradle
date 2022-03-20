@@ -79,4 +79,8 @@ dependencies {
     // Moshi json converter
     implementation 'com.squareup.moshi:moshi:1.8.0'
     kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.8.0'
+
+    //Dagger HILT
+    implementation("com.google.dagger:hilt-android:2.38.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.38.1")
 }
