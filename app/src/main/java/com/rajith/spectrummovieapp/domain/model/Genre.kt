@@ -1,4 +1,4 @@
-package com.rajith.spectrummovieapp.models
+package com.rajith.spectrummovieapp.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -1,11 +1,11 @@
-package com.rajith.spectrummovieapp.db
+package com.rajith.spectrummovieapp.data.local
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.rajith.spectrummovieapp.models.Genre
+import com.rajith.spectrummovieapp.domain.model.Genre
 
 @Dao
 interface GenreDao {

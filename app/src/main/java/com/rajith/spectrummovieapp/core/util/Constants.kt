@@ -1,4 +1,4 @@
-package com.rajith.spectrummovieapp.util
+package com.rajith.spectrummovieapp.core.util
 
 class Constants {
 

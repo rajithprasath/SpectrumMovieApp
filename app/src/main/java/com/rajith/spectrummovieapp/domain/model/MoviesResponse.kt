@@ -1,4 +1,4 @@
-package com.rajith.spectrummovieapp.models
+package com.rajith.spectrummovieapp.domain.model
 
 data class MoviesResponse(
     val dates: Dates,

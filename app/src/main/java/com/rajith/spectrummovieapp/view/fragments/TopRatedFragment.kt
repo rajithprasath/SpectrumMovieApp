@@ -1,4 +1,4 @@
-package com.rajith.spectrummovieapp.ui.fragments
+package com.rajith.spectrummovieapp.view.fragments
 
 import androidx.fragment.app.Fragment
 import com.rajith.spectrummovieapp.R

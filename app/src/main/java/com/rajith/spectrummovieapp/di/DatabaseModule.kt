@@ -2,7 +2,8 @@ package com.rajith.spectrummovieapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.rajith.spectrummovieapp.db.MovieDatabase
+import com.rajith.spectrummovieapp.data.local.MovieDatabase
+import com.rajith.spectrummovieapp.data.local.MovieDatabase.Companion.DATABASE_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,7 +21,7 @@ object DatabaseModule {
         return Room.databaseBuilder(
             context.applicationContext,
             MovieDatabase::class.java,
-            "movie_db.db"
+            DATABASE_NAME
         ).build()
     }
 }

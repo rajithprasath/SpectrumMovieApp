@@ -1,4 +1,4 @@
-package com.rajith.spectrummovieapp.adapters
+package com.rajith.spectrummovieapp.view.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rajith.spectrummovieapp.R
-import com.rajith.spectrummovieapp.models.Result
-import com.rajith.spectrummovieapp.util.Constants.Companion.IMAGE_BASE_URL
-import kotlinx.android.synthetic.main.activity_movies.view.*
+import com.rajith.spectrummovieapp.domain.model.Result
+import com.rajith.spectrummovieapp.core.util.Constants.Companion.IMAGE_BASE_URL
 import kotlinx.android.synthetic.main.item_movie.view.*
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {

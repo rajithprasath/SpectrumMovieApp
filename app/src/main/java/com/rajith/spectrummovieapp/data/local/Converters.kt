@@ -1,7 +1,7 @@
-package com.rajith.spectrummovieapp.db
+package com.rajith.spectrummovieapp.data.local
 
 import androidx.room.TypeConverter
-import com.rajith.spectrummovieapp.models.Genre
+import com.rajith.spectrummovieapp.domain.model.Genre
 import com.squareup.moshi.Moshi
 
 class Converters {

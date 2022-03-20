@@ -1,7 +1,7 @@
 package com.rajith.spectrummovieapp.di
 
-import com.rajith.spectrummovieapp.api.MovieAPI
-import com.rajith.spectrummovieapp.util.Constants
+import com.rajith.spectrummovieapp.data.remote.MovieAPI
+import com.rajith.spectrummovieapp.core.util.Constants
 
 import dagger.Module
 import dagger.Provides

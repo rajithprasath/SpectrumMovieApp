@@ -1,9 +1,9 @@
-package com.rajith.spectrummovieapp.api
+package com.rajith.spectrummovieapp.data.remote
 
-import com.rajith.spectrummovieapp.models.GenreResponse
-import com.rajith.spectrummovieapp.models.MoviesResponse
-import com.rajith.spectrummovieapp.models.Result
-import com.rajith.spectrummovieapp.util.Constants.Companion.API_KEY
+import com.rajith.spectrummovieapp.domain.model.GenreResponse
+import com.rajith.spectrummovieapp.domain.model.MoviesResponse
+import com.rajith.spectrummovieapp.domain.model.Result
+import com.rajith.spectrummovieapp.core.util.Constants.Companion.API_KEY
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
