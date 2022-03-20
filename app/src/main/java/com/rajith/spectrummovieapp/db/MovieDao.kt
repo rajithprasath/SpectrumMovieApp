@@ -3,7 +3,7 @@ package com.rajith.spectrummovieapp.db
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-import com.rajith.spectrummovieapp.Result
+import com.rajith.spectrummovieapp.models.Result
 
 @Dao
 interface MovieDao {

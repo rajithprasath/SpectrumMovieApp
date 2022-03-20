@@ -5,7 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.rajith.spectrummovieapp.Genre
+import com.rajith.spectrummovieapp.models.Genre
 
 @Dao
 interface GenreDao {

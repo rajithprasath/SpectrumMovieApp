@@ -1,4 +1,4 @@
-package com.rajith.spectrummovieapp
+package com.rajith.spectrummovieapp.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
