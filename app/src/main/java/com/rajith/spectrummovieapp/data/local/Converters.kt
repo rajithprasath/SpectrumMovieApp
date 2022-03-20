@@ -1,22 +1,28 @@
 package com.rajith.spectrummovieapp.data.local
 
+import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
+import com.google.gson.reflect.TypeToken
+import com.rajith.spectrummovieapp.data.util.JsonParser
 import com.rajith.spectrummovieapp.domain.model.Genre
-import com.squareup.moshi.Moshi
 
-class Converters {
-
+@ProvidedTypeConverter
+class Converters(
+    private val jsonParser: JsonParser
+) {
     @TypeConverter
-    fun fromGenre(genre: Genre): String = toJson(genre)
-
-    @TypeConverter
-    fun toGenre(id: Int, name: String): Genre {
-        return Genre(id, name)
+    fun fromMeaningsJson(json: String): List<Genre> {
+        return jsonParser.fromJson<ArrayList<Genre>>(
+            json,
+            object : TypeToken<ArrayList<Genre>>(){}.type
+        ) ?: emptyList()
     }
 
-    inline fun <reified Genre> toJson(value: Genre): String {
-        val moshi = Moshi.Builder().build()
-        val jsonAdapter = moshi.adapter(Genre::class.java)
-        return jsonAdapter.toJson(value)
+    @TypeConverter
+    fun toMeaningsJson(meanings: List<Genre>): String {
+        return jsonParser.toJson(
+            meanings,
+            object : TypeToken<ArrayList<Genre>>(){}.type
+        ) ?: "[]"
     }
 }
