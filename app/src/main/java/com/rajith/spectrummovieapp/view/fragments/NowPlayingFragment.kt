@@ -2,7 +2,9 @@ package com.rajith.spectrummovieapp.view.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -19,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_now_playing.*
 class NowPlayingFragment : Fragment(R.layout.fragment_now_playing) {
 
     lateinit var viewModel: MoviesViewModel
-    lateinit var newsAdapter: MovieAdapter
+    private lateinit var newsAdapter: MovieAdapter
     private val TAG = "NowPlayingFragment"
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -63,7 +65,7 @@ class NowPlayingFragment : Fragment(R.layout.fragment_now_playing) {
     }
 
     private fun showProgressBar() {
-//        paginationProgressBar.visibility = View.VISIBLE
+        paginationProgressBar.visibility = View.VISIBLE
     }
 
     private fun setupRecyclerView() {
