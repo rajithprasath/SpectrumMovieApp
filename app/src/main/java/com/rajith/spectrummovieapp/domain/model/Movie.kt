@@ -7,7 +7,7 @@ import com.rajith.spectrummovieapp.domain.model.Genre
 @Entity(
     tableName = "movies"
 )
-data class Result(
+data class Movie(
     @PrimaryKey
     val id: Int,
     val adult: Boolean,

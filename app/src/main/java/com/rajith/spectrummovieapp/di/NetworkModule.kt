@@ -2,6 +2,9 @@ package com.rajith.spectrummovieapp.di
 
 import com.rajith.spectrummovieapp.data.remote.MovieAPI
 import com.rajith.spectrummovieapp.core.util.Constants
+import com.rajith.spectrummovieapp.data.repository.MovieRepositoryImpl
+import com.rajith.spectrummovieapp.domain.repository.MovieRepository
+import com.rajith.spectrummovieapp.domain.use_case.GetMoviesUseCase
 
 import dagger.Module
 import dagger.Provides
@@ -38,5 +41,18 @@ object NetworkModule {
         return retrofit.create(MovieAPI::class.java)
     }
 
+    @Provides
+    @Singleton
+    fun provideGetMoviesUseCase(repository: MovieRepository): GetMoviesUseCase {
+        return GetMoviesUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMovieRepository(
+        api: MovieAPI
+    ): MovieRepository {
+        return MovieRepositoryImpl(api)
+    }
 
 }

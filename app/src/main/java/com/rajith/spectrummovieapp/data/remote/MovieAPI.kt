@@ -2,54 +2,25 @@ package com.rajith.spectrummovieapp.data.remote
 
 import com.rajith.spectrummovieapp.domain.model.GenreResponse
 import com.rajith.spectrummovieapp.domain.model.MoviesResponse
-import com.rajith.spectrummovieapp.domain.model.Result
+import com.rajith.spectrummovieapp.domain.model.Movie
 import com.rajith.spectrummovieapp.core.util.Constants.Companion.API_KEY
-import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MovieAPI {
 
-    @GET("3/movie/now_playing")
-    suspend fun getNowPlayingMovies(
+    @GET("3/movie/{list}")
+    suspend fun getMovies(
+        @Path("list") list: String,
         @Query("language")
         country: String = "en-US",
         @Query("page")
         pageNumber: Int = 1,
         @Query("api_key")
         apiKey: String = API_KEY
-    ): Response<MoviesResponse>
+    ): MoviesResponse
 
-    @GET("3/movie/popular")
-    suspend fun getPopularMovies(
-        @Query("language")
-        country: String = "en-US",
-        @Query("page")
-        pageNumber: Int = 1,
-        @Query("api_key")
-        apiKey: String = API_KEY
-    ): Response<MoviesResponse>
-
-    @GET("3/movie/top_rated")
-    suspend fun getTopRatedMovies(
-        @Query("language")
-        country: String = "en-US",
-        @Query("page")
-        pageNumber: Int = 1,
-        @Query("api_key")
-        apiKey: String = API_KEY
-    ): Response<MoviesResponse>
-
-    @GET("3/movie/upcoming")
-    suspend fun getUpcomingMovies(
-        @Query("language")
-        country: String = "en-US",
-        @Query("page")
-        pageNumber: Int = 1,
-        @Query("api_key")
-        apiKey: String = API_KEY
-    ): Response<MoviesResponse>
 
     @GET("3/search/movie")
     suspend fun searchForMovies(
@@ -61,7 +32,7 @@ interface MovieAPI {
         pageNumber: Int = 1,
         @Query("api_key")
         apiKey: String = API_KEY
-    ): Response<MoviesResponse>
+    ): MoviesResponse
 
     @GET("3/movie")
     suspend fun getMovieDetails(
@@ -73,11 +44,11 @@ interface MovieAPI {
         searchQuery: String,
         @Query("api_key")
         apiKey: String = API_KEY
-    ): Response<Result>
+    ): Movie
 
     @GET("3/genre/movie/list")
     suspend fun getGenres(
         @Query("api_key")
         apiKey: String = API_KEY
-    ): Response<GenreResponse>
+    ): GenreResponse
 }

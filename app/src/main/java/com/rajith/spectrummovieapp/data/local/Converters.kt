@@ -11,7 +11,7 @@ class Converters(
     private val jsonParser: JsonParser
 ) {
     @TypeConverter
-    fun fromMeaningsJson(json: String): List<Genre> {
+    fun fromGenreJson(json: String): List<Genre> {
         return jsonParser.fromJson<ArrayList<Genre>>(
             json,
             object : TypeToken<ArrayList<Genre>>(){}.type
@@ -19,10 +19,26 @@ class Converters(
     }
 
     @TypeConverter
-    fun toMeaningsJson(meanings: List<Genre>): String {
+    fun toGenreJson(meanings: List<Genre>): String {
         return jsonParser.toJson(
             meanings,
             object : TypeToken<ArrayList<Genre>>(){}.type
+        ) ?: "[]"
+    }
+
+    @TypeConverter
+    fun fromGenreIdJson(json: String): List<Int> {
+        return jsonParser.fromJson<ArrayList<Int>>(
+            json,
+            object : TypeToken<ArrayList<Int>>(){}.type
+        ) ?: emptyList()
+    }
+
+    @TypeConverter
+    fun toGenreIdJson(genreIds: List<Int>): String {
+        return jsonParser.toJson(
+            genreIds,
+            object : TypeToken<ArrayList<Int>>(){}.type
         ) ?: "[]"
     }
 }

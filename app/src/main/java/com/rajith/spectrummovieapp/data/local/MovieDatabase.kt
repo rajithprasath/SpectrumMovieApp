@@ -4,10 +4,10 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.rajith.spectrummovieapp.domain.model.Genre
-import com.rajith.spectrummovieapp.domain.model.Result
+import com.rajith.spectrummovieapp.domain.model.Movie
 
 @Database(
-    entities = [Result::class, Genre::class],
+    entities = [Movie::class, Genre::class],
     version = 1
 )
 @TypeConverters(Converters::class)

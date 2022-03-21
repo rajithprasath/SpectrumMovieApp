@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rajith.spectrummovieapp.R
-import com.rajith.spectrummovieapp.domain.model.Result
+import com.rajith.spectrummovieapp.domain.model.Movie
 import com.rajith.spectrummovieapp.core.util.Constants.Companion.IMAGE_BASE_URL
 import kotlinx.android.synthetic.main.item_movie.view.*
 
@@ -41,9 +41,9 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
     }
 
-    private var onItemClickListener: ((Result) -> Unit)? = null
+    private var onItemClickListener: ((Movie) -> Unit)? = null
 
-    fun setOnItemClickListener(listener : (Result) -> Unit){
+    fun setOnItemClickListener(listener : (Movie) -> Unit){
         onItemClickListener = listener
     }
 
@@ -51,16 +51,16 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
         return differ.currentList.size
     }
 
-    private val differCallBack = object : DiffUtil.ItemCallback<Result>(){
-        override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
+    private val differCallBack = object : DiffUtil.ItemCallback<Movie>(){
+        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
+        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem == newItem
         }
 
     }
 
-    private val differ = AsyncListDiffer(this, differCallBack)
+    val differ = AsyncListDiffer(this, differCallBack)
 }
