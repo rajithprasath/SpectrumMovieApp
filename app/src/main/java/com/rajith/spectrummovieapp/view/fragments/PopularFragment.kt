@@ -9,11 +9,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rajith.spectrummovieapp.R
 import com.rajith.spectrummovieapp.core.util.Resource
-import com.rajith.spectrummovieapp.view.activities.MoviesActivity
+import com.rajith.spectrummovieapp.view.activities.MoviesListActivity
 import com.rajith.spectrummovieapp.view.adapters.MovieAdapter
 import com.rajith.spectrummovieapp.viewmodel.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_now_playing.*
 import kotlinx.android.synthetic.main.fragment_now_playing.paginationProgressBar
 import kotlinx.android.synthetic.main.fragment_popular.*
 
@@ -25,7 +24,7 @@ class PopularFragment : Fragment(R.layout.fragment_popular) {
     private val TAG = "NowPlayingFragment"
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as MoviesActivity).viewModel
+        viewModel = (activity as MoviesListActivity).viewModel
         setupRecyclerView()
 
         viewModel.getPopularMovies()

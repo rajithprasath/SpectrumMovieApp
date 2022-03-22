@@ -56,4 +56,8 @@
         android:id="@+id/movieDetailFragment"
         android:name="com.rajith.spectrummovieapp.view.fragments.MovieDetailFragment"
         android:label="MovieDetailFragment" />
+    <activity
+        android:id="@+id/MovieSearchActivity"
+        android:name="com.rajith.spectrummovieapp.view.activities.MovieSearchActivity"
+        android:label="MovieSearchActivity" />
 </navigation>

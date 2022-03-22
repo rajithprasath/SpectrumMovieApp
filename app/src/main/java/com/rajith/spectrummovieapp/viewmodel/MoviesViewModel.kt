@@ -25,9 +25,9 @@ class MoviesViewModel @Inject constructor(
     val topRatedMovies: MutableLiveData<Resource<MoviesResponse>> = MutableLiveData()
     val upcomingMovies: MutableLiveData<Resource<MoviesResponse>> = MutableLiveData()
     private var nowPlayingPage = 1
-    var popularPage = 1
-    var topRatedPage = 1
-    var upcomingPage = 1
+    private var popularPage = 1
+    private var topRatedPage = 1
+    private var upcomingPage = 1
     private var getMoviesJob: Job? = null
 
     fun getNowPlayingMovies() {
