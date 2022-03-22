@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rajith.spectrummovieapp.R
 import com.rajith.spectrummovieapp.core.util.Resource
+import com.rajith.spectrummovieapp.domain.model.Movie
 import com.rajith.spectrummovieapp.view.activities.MoviesListActivity
 import com.rajith.spectrummovieapp.view.adapters.MovieAdapter
 import com.rajith.spectrummovieapp.viewmodel.MoviesViewModel
@@ -21,6 +22,7 @@ class NowPlayingFragment : Fragment(R.layout.fragment_now_playing) {
     lateinit var viewModel: MoviesViewModel
     private lateinit var newsAdapter: MovieAdapter
     private val TAG = "NowPlayingFragment"
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MoviesListActivity).viewModel
@@ -29,7 +31,7 @@ class NowPlayingFragment : Fragment(R.layout.fragment_now_playing) {
         viewModel.getNowPlayingMovies()
         newsAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
-                putSerializable("movie_id", it.id)
+                putSerializable("movieId", it.id)
             }
             findNavController().navigate(
                 R.id.action_nowPlayingFragment_to_movieDetailFragment,
@@ -41,8 +43,8 @@ class NowPlayingFragment : Fragment(R.layout.fragment_now_playing) {
             when(response) {
                 is Resource.Success -> {
                     hideProgressBar()
-                    response.data?.let { newsResponse ->
-                        newsAdapter.differ.submitList(newsResponse.results)
+                    response.data?.let { movieResponse ->
+                        newsAdapter.differ.submitList(movieResponse.results)
                     }
                 }
                 is Resource.Error -> {

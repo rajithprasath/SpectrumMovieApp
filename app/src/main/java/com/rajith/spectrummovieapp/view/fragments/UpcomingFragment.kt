@@ -28,7 +28,7 @@ class UpcomingFragment : Fragment(R.layout.fragment_upcoming) {
         viewModel.getUpcomingMovies()
         newsAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
-                putSerializable("movie_id", it.id)
+                putSerializable("movieId", it.id)
             }
             findNavController().navigate(
                 R.id.action_nowPlayingFragment_to_movieDetailFragment,
@@ -40,8 +40,8 @@ class UpcomingFragment : Fragment(R.layout.fragment_upcoming) {
             when(response) {
                 is Resource.Success -> {
                     hideProgressBar()
-                    response.data?.let { newsResponse ->
-                        newsAdapter.differ.submitList(newsResponse.results)
+                    response.data?.let { movieResponse ->
+                        newsAdapter.differ.submitList(movieResponse.results)
                     }
                 }
                 is Resource.Error -> {

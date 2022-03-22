@@ -30,7 +30,7 @@ class PopularFragment : Fragment(R.layout.fragment_popular) {
         viewModel.getPopularMovies()
         newsAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
-                putSerializable("movie_id", it.id)
+                putSerializable("movieId", it.id)
             }
             findNavController().navigate(
                 R.id.action_nowPlayingFragment_to_movieDetailFragment,
@@ -42,8 +42,8 @@ class PopularFragment : Fragment(R.layout.fragment_popular) {
             when(response) {
                 is Resource.Success -> {
                     hideProgressBar()
-                    response.data?.let { newsResponse ->
-                        newsAdapter.differ.submitList(newsResponse.results)
+                    response.data?.let { movieResponse ->
+                        newsAdapter.differ.submitList(movieResponse.results)
                     }
                 }
                 is Resource.Error -> {

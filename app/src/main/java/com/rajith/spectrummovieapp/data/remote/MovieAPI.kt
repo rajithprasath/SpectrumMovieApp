@@ -34,14 +34,12 @@ interface MovieAPI {
         apiKey: String = API_KEY
     ): MoviesResponse
 
-    @GET("3/movie")
+    @GET("3/movie/{movie_id}")
     suspend fun getMovieDetails(
         @Path("movie_id")
-        movieId: String,
+        movieId: Int,
         @Query("language")
         country: String = "en-US",
-        @Query("query")
-        searchQuery: String,
         @Query("api_key")
         apiKey: String = API_KEY
     ): Movie

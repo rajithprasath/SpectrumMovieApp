@@ -4,6 +4,7 @@ import com.rajith.spectrummovieapp.data.remote.MovieAPI
 import com.rajith.spectrummovieapp.core.util.Constants
 import com.rajith.spectrummovieapp.data.repository.MovieRepositoryImpl
 import com.rajith.spectrummovieapp.domain.repository.MovieRepository
+import com.rajith.spectrummovieapp.domain.use_case.GetMovieDetailUseCase
 import com.rajith.spectrummovieapp.domain.use_case.GetMoviesUseCase
 import com.rajith.spectrummovieapp.domain.use_case.SearchMovieUseCase
 
@@ -52,6 +53,12 @@ object NetworkModule {
     @Singleton
     fun provideSearchMovieUseCase(repository: MovieRepository): SearchMovieUseCase {
         return SearchMovieUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetMovieDetailUseCase(repository: MovieRepository): GetMovieDetailUseCase {
+        return GetMovieDetailUseCase(repository)
     }
 
     @Provides
