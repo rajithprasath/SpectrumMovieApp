@@ -7,14 +7,13 @@ import com.rajith.spectrummovieapp.domain.model.Genre
 import com.rajith.spectrummovieapp.domain.model.Movie
 
 @Database(
-    entities = [Movie::class, Genre::class],
+    entities = [Movie::class],
     version = 1
 )
 @TypeConverters(Converters::class)
 abstract class MovieDatabase : RoomDatabase() {
 
     abstract fun getMovieDao(): MovieDao
-    abstract fun getGenreDao(): GenreDao
 
     companion object{
         const val DATABASE_NAME = "movie_db.db"

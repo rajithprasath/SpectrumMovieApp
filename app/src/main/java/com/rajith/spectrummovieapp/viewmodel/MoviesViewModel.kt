@@ -7,8 +7,10 @@ import com.rajith.spectrummovieapp.core.util.MovieCategory
 import com.rajith.spectrummovieapp.core.util.Resource
 import com.rajith.spectrummovieapp.domain.model.Movie
 import com.rajith.spectrummovieapp.domain.model.MoviesResponse
+import com.rajith.spectrummovieapp.domain.use_case.GetFavouriteMoviesUseCase
 import com.rajith.spectrummovieapp.domain.use_case.GetMovieDetailUseCase
 import com.rajith.spectrummovieapp.domain.use_case.GetMoviesUseCase
+import com.rajith.spectrummovieapp.domain.use_case.SaveMovieUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
@@ -19,7 +21,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MoviesViewModel @Inject constructor(
     private val getMoviesUseCase: GetMoviesUseCase,
-    private val getMovieDetailUseCase: GetMovieDetailUseCase
+    private val getMovieDetailUseCase: GetMovieDetailUseCase,
+    private val saveMovieUseCase: SaveMovieUseCase,
+    private val getFavouriteMoviesUseCase: GetFavouriteMoviesUseCase
 ) : ViewModel() {
 
     val nowPlayingMovies: MutableLiveData<Resource<MoviesResponse>> = MutableLiveData()
@@ -27,6 +31,8 @@ class MoviesViewModel @Inject constructor(
     val topRatedMovies: MutableLiveData<Resource<MoviesResponse>> = MutableLiveData()
     val upcomingMovies: MutableLiveData<Resource<MoviesResponse>> = MutableLiveData()
     val movie: MutableLiveData<Resource<Movie>> = MutableLiveData()
+    val favoriteMovies: MutableLiveData<Resource<List<Movie>>> = MutableLiveData()
+
 
     private var nowPlayingPage = 1
     private var popularPage = 1
@@ -34,6 +40,7 @@ class MoviesViewModel @Inject constructor(
     private var upcomingPage = 1
     private var getMoviesJob: Job? = null
     private var getMovieDetailJob: Job? = null
+    private var getFavouriteMoviesJob: Job? = null
 
     fun getNowPlayingMovies() {
         getMoviesJob?.cancel()
@@ -85,6 +92,23 @@ class MoviesViewModel @Inject constructor(
         }
     }
 
+    fun saveMovie(movie: Movie) {
+        getMovieDetailJob?.cancel()
+        getMovieDetailJob = viewModelScope.launch {
+            saveMovieUseCase(movie)
+        }
+    }
+
+    fun getFavouriteMovies() {
+        getFavouriteMoviesJob?.cancel()
+        getFavouriteMoviesJob = viewModelScope.launch {
+            getFavouriteMoviesUseCase()
+                .onEach { result ->
+                    handleFavouriteMoviesResponse(result, favoriteMovies)
+                }.launchIn(this)
+        }
+    }
+
 
     private fun handleMoviesResponse(result: Resource<MoviesResponse>, mutableData: MutableLiveData<Resource<MoviesResponse>>){
         when(result) {
@@ -113,5 +137,20 @@ class MoviesViewModel @Inject constructor(
             }
         }
     }
+
+    private fun handleFavouriteMoviesResponse(result: Resource<List<Movie>>, mutableData: MutableLiveData<Resource<List<Movie>>>){
+        when(result) {
+            is Resource.Success -> {
+                mutableData.postValue(Resource.Success(result.data))
+            }
+            is Resource.Error -> {
+                mutableData.postValue(result.message?.let { Resource.Error(it) })
+            }
+            is Resource.Loading -> {
+                mutableData.postValue(Resource.Loading())
+            }
+        }
+    }
+
 
 }
