@@ -1,13 +1,10 @@
 package com.rajith.spectrummovieapp.di
 
-import android.content.Context
-import androidx.room.Room
 import com.rajith.spectrummovieapp.data.remote.MovieAPI
 import com.rajith.spectrummovieapp.core.util.Constants
-import com.rajith.spectrummovieapp.data.local.MovieDao
-import com.rajith.spectrummovieapp.data.local.MovieDatabase
-import com.rajith.spectrummovieapp.data.repository.MovieRepositoryImpl
-import com.rajith.spectrummovieapp.domain.repository.MovieRepository
+import com.rajith.spectrummovieapp.data.repository.MovieNetworkRepositoryImpl
+import com.rajith.spectrummovieapp.domain.repository.MovieNetworkRepository
+import com.rajith.spectrummovieapp.domain.use_case.GetGenresUseCase
 import com.rajith.spectrummovieapp.domain.use_case.GetMovieDetailUseCase
 import com.rajith.spectrummovieapp.domain.use_case.GetMoviesUseCase
 import com.rajith.spectrummovieapp.domain.use_case.SearchMovieUseCase
@@ -15,7 +12,6 @@ import com.rajith.spectrummovieapp.domain.use_case.SearchMovieUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -50,28 +46,34 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideGetMoviesUseCase(repository: MovieRepository): GetMoviesUseCase {
-        return GetMoviesUseCase(repository)
+    fun provideGetMoviesUseCase(networkRepository: MovieNetworkRepository): GetMoviesUseCase {
+        return GetMoviesUseCase(networkRepository)
     }
 
     @Provides
     @Singleton
-    fun provideSearchMovieUseCase(repository: MovieRepository): SearchMovieUseCase {
-        return SearchMovieUseCase(repository)
+    fun provideSearchMovieUseCase(networkRepository: MovieNetworkRepository): SearchMovieUseCase {
+        return SearchMovieUseCase(networkRepository)
     }
 
     @Provides
     @Singleton
-    fun provideGetMovieDetailUseCase(repository: MovieRepository): GetMovieDetailUseCase {
-        return GetMovieDetailUseCase(repository)
+    fun provideGetMovieDetailUseCase(networkRepository: MovieNetworkRepository): GetMovieDetailUseCase {
+        return GetMovieDetailUseCase(networkRepository)
     }
 
     @Provides
     @Singleton
-    fun provideMovieRepository(
+    fun provideGetGenresUseCase(networkRepository: MovieNetworkRepository): GetGenresUseCase {
+        return GetGenresUseCase(networkRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideMovieNetworkRepository(
         api: MovieAPI
-    ): MovieRepository {
-        return MovieRepositoryImpl(api)
+    ): MovieNetworkRepository {
+        return MovieNetworkRepositoryImpl(api)
     }
 
 }

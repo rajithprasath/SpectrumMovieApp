@@ -6,14 +6,10 @@ import com.google.gson.Gson
 import com.rajith.spectrummovieapp.data.local.Converters
 import com.rajith.spectrummovieapp.data.local.MovieDatabase
 import com.rajith.spectrummovieapp.data.local.MovieDatabase.Companion.DATABASE_NAME
-import com.rajith.spectrummovieapp.data.remote.MovieAPI
-import com.rajith.spectrummovieapp.data.repository.MovieDBRepositoryImpl
-import com.rajith.spectrummovieapp.data.repository.MovieRepositoryImpl
+import com.rajith.spectrummovieapp.data.repository.MovieDatabaseRepositoryImpl
 import com.rajith.spectrummovieapp.data.util.GsonParser
-import com.rajith.spectrummovieapp.domain.repository.MovieDBRepository
-import com.rajith.spectrummovieapp.domain.repository.MovieRepository
+import com.rajith.spectrummovieapp.domain.repository.MovieDatabaseRepository
 import com.rajith.spectrummovieapp.domain.use_case.GetFavouriteMoviesUseCase
-import com.rajith.spectrummovieapp.domain.use_case.GetMovieDetailUseCase
 import com.rajith.spectrummovieapp.domain.use_case.SaveMovieUseCase
 import dagger.Module
 import dagger.Provides
@@ -39,23 +35,23 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideSaveMovieUseCase(repository: MovieDBRepository): SaveMovieUseCase {
+    fun provideSaveMovieUseCase(repository: MovieDatabaseRepository): SaveMovieUseCase {
         return SaveMovieUseCase(repository)
     }
 
     @Provides
     @Singleton
-    fun provideGetFavouriteMoviesUseCase(repository: MovieDBRepository): GetFavouriteMoviesUseCase {
+    fun provideGetFavouriteMoviesUseCase(repository: MovieDatabaseRepository): GetFavouriteMoviesUseCase {
         return GetFavouriteMoviesUseCase(repository)
     }
 
 
     @Provides
     @Singleton
-    fun provideMovieDBRepository(
+    fun provideMovieDatabaseRepository(
         db: MovieDatabase
-    ): MovieDBRepository {
-        return MovieDBRepositoryImpl(db.getMovieDao())
+    ): MovieDatabaseRepository {
+        return MovieDatabaseRepositoryImpl(db.getMovieDao())
     }
 
 }

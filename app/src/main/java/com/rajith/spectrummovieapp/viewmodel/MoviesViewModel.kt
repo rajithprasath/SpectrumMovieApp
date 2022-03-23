@@ -5,12 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rajith.spectrummovieapp.core.util.MovieCategory
 import com.rajith.spectrummovieapp.core.util.Resource
+import com.rajith.spectrummovieapp.domain.model.GenreResponse
 import com.rajith.spectrummovieapp.domain.model.Movie
 import com.rajith.spectrummovieapp.domain.model.MoviesResponse
-import com.rajith.spectrummovieapp.domain.use_case.GetFavouriteMoviesUseCase
-import com.rajith.spectrummovieapp.domain.use_case.GetMovieDetailUseCase
-import com.rajith.spectrummovieapp.domain.use_case.GetMoviesUseCase
-import com.rajith.spectrummovieapp.domain.use_case.SaveMovieUseCase
+import com.rajith.spectrummovieapp.domain.use_case.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
@@ -23,13 +21,15 @@ class MoviesViewModel @Inject constructor(
     private val getMoviesUseCase: GetMoviesUseCase,
     private val getMovieDetailUseCase: GetMovieDetailUseCase,
     private val saveMovieUseCase: SaveMovieUseCase,
-    private val getFavouriteMoviesUseCase: GetFavouriteMoviesUseCase
+    private val getFavouriteMoviesUseCase: GetFavouriteMoviesUseCase,
+    private val getGenresUseCase: GetGenresUseCase,
 ) : ViewModel() {
 
     val nowPlayingMovies: MutableLiveData<Resource<MoviesResponse>> = MutableLiveData()
     val popularMovies: MutableLiveData<Resource<MoviesResponse>> = MutableLiveData()
     val topRatedMovies: MutableLiveData<Resource<MoviesResponse>> = MutableLiveData()
     val upcomingMovies: MutableLiveData<Resource<MoviesResponse>> = MutableLiveData()
+    val genres: MutableLiveData<Resource<GenreResponse>> = MutableLiveData()
     val movie: MutableLiveData<Resource<Movie>> = MutableLiveData()
     val favoriteMovies: MutableLiveData<Resource<List<Movie>>> = MutableLiveData()
 
@@ -41,6 +41,7 @@ class MoviesViewModel @Inject constructor(
     private var getMoviesJob: Job? = null
     private var getMovieDetailJob: Job? = null
     private var getFavouriteMoviesJob: Job? = null
+    private var getGenresJob: Job? = null
 
     fun getNowPlayingMovies() {
         getMoviesJob?.cancel()
@@ -109,6 +110,15 @@ class MoviesViewModel @Inject constructor(
         }
     }
 
+    fun getAllGenres() {
+        getGenresJob?.cancel()
+        getGenresJob = viewModelScope.launch {
+            getGenresUseCase()
+                .onEach { result ->
+                    handleGenresResponse(result, genres)
+                }.launchIn(this)
+        }
+    }
 
     private fun handleMoviesResponse(result: Resource<MoviesResponse>, mutableData: MutableLiveData<Resource<MoviesResponse>>){
         when(result) {
@@ -151,6 +161,21 @@ class MoviesViewModel @Inject constructor(
             }
         }
     }
+
+    private fun handleGenresResponse(result: Resource<GenreResponse>, mutableData: MutableLiveData<Resource<GenreResponse>>){
+        when(result) {
+            is Resource.Success -> {
+                mutableData.postValue(Resource.Success(result.data))
+            }
+            is Resource.Error -> {
+                mutableData.postValue(result.message?.let { Resource.Error(it) })
+            }
+            is Resource.Loading -> {
+                mutableData.postValue(Resource.Loading())
+            }
+        }
+    }
+
 
 
 }

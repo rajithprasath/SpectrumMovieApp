@@ -2,14 +2,11 @@ package com.rajith.spectrummovieapp.domain.use_case
 
 import com.rajith.spectrummovieapp.core.util.Resource
 import com.rajith.spectrummovieapp.domain.model.Movie
-import com.rajith.spectrummovieapp.domain.model.MoviesResponse
-import com.rajith.spectrummovieapp.domain.repository.MovieDBRepository
-import com.rajith.spectrummovieapp.domain.repository.MovieRepository
+import com.rajith.spectrummovieapp.domain.repository.MovieDatabaseRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class GetFavouriteMoviesUseCase (
-    private val repository: MovieDBRepository
+    private val repository: MovieDatabaseRepository
 ) {
 
     suspend  operator fun invoke(): Flow<Resource<List<Movie>>> {

@@ -1,19 +1,19 @@
 package com.rajith.spectrummovieapp.data.repository
 
 import com.rajith.spectrummovieapp.core.util.Resource
-import com.rajith.spectrummovieapp.data.local.MovieDao
 import com.rajith.spectrummovieapp.data.remote.MovieAPI
+import com.rajith.spectrummovieapp.domain.model.GenreResponse
 import com.rajith.spectrummovieapp.domain.model.Movie
 import com.rajith.spectrummovieapp.domain.model.MoviesResponse
-import com.rajith.spectrummovieapp.domain.repository.MovieRepository
+import com.rajith.spectrummovieapp.domain.repository.MovieNetworkRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
-class MovieRepositoryImpl(
+class MovieNetworkRepositoryImpl(
     private val api: MovieAPI
-    ) : MovieRepository {
+    ) : MovieNetworkRepository {
 
     override fun getMovies(pageNumber: Int, category: String): Flow<Resource<MoviesResponse>> = flow {
         emit(Resource.Loading())
@@ -67,9 +67,21 @@ class MovieRepositoryImpl(
     }
 
 
-
-    override fun getAllGenres(): Flow<Resource<MoviesResponse>> {
-        TODO("Not yet implemented")
+    override fun getAllGenres(): Flow<Resource<GenreResponse>> = flow {
+        emit(Resource.Loading())
+        val genres: GenreResponse
+        try {
+            genres = api.getGenres()
+            emit(Resource.Success(genres))
+        } catch(e: HttpException) {
+            emit(Resource.Error(
+                message = "Oops, something went wrong!"
+            ))
+        } catch(e: IOException) {
+            emit(Resource.Error(
+                message = "Couldn't reach server, check your internet connection."
+            ))
+        }
     }
 
 }

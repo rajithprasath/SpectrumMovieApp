@@ -4,7 +4,7 @@ import com.rajith.spectrummovieapp.core.util.Resource
 import com.rajith.spectrummovieapp.domain.model.Movie
 import kotlinx.coroutines.flow.Flow
 
-interface MovieDBRepository {
+interface MovieDatabaseRepository {
 
     suspend fun upsert(movie: Movie)
 

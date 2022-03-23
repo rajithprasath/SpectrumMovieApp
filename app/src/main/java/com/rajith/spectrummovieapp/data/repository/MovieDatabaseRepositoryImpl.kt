@@ -2,18 +2,16 @@ package com.rajith.spectrummovieapp.data.repository
 
 import com.rajith.spectrummovieapp.core.util.Resource
 import com.rajith.spectrummovieapp.data.local.MovieDao
-import com.rajith.spectrummovieapp.data.remote.MovieAPI
 import com.rajith.spectrummovieapp.domain.model.Movie
-import com.rajith.spectrummovieapp.domain.repository.MovieDBRepository
-import com.rajith.spectrummovieapp.domain.repository.MovieRepository
+import com.rajith.spectrummovieapp.domain.repository.MovieDatabaseRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
-class MovieDBRepositoryImpl (
+class MovieDatabaseRepositoryImpl (
     private val dao: MovieDao
-) : MovieDBRepository {
+) : MovieDatabaseRepository {
 
     override suspend fun upsert(movie: Movie) {
         dao.upsert(movie)

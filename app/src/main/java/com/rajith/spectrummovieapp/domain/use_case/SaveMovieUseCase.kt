@@ -1,10 +1,9 @@
 package com.rajith.spectrummovieapp.domain.use_case
 import com.rajith.spectrummovieapp.domain.model.Movie
-import com.rajith.spectrummovieapp.domain.repository.MovieDBRepository
-import com.rajith.spectrummovieapp.domain.repository.MovieRepository
+import com.rajith.spectrummovieapp.domain.repository.MovieDatabaseRepository
 
 class SaveMovieUseCase (
-    private val repository: MovieDBRepository
+    private val repository: MovieDatabaseRepository
 ) {
 
     suspend  operator fun invoke(movie: Movie) {
