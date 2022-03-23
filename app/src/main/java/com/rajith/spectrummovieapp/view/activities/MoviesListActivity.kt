@@ -25,13 +25,14 @@ class MoviesListActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_search, menu)
+        menuInflater.inflate(R.menu.menu_options, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.MovieSearchActivity -> startActivity(Intent(this,MovieSearchActivity::class.java))
+            R.id.FavouriteMoviesActivity -> startActivity(Intent(this,FavouriteMoviesActivity::class.java))
         }
         return super.onOptionsItemSelected(item)
     }

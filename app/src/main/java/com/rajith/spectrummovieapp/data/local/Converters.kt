@@ -10,6 +10,8 @@ import com.rajith.spectrummovieapp.domain.model.Genre
 class Converters(
     private val jsonParser: JsonParser
 ) {
+
+
     @TypeConverter
     fun fromGenreJson(json: String): List<Genre> {
         return jsonParser.fromJson<ArrayList<Genre>>(
@@ -19,9 +21,9 @@ class Converters(
     }
 
     @TypeConverter
-    fun toGenreJson(meanings: List<Genre>): String {
+    fun toGenreJson(genres: List<Genre>): String {
         return jsonParser.toJson(
-            meanings,
+            genres,
             object : TypeToken<ArrayList<Genre>>(){}.type
         ) ?: "[]"
     }
@@ -35,10 +37,13 @@ class Converters(
     }
 
     @TypeConverter
-    fun toGenreIdJson(genreIds: List<Int>): String {
-        return jsonParser.toJson(
-            genreIds,
-            object : TypeToken<ArrayList<Int>>(){}.type
-        ) ?: "[]"
+    fun toGenreIdJson(genreIds: List<Int>?): String {
+        genreIds?.let {
+            return jsonParser.toJson(
+                genreIds,
+                object : TypeToken<ArrayList<Int>>(){}.type
+            ) ?: "[]"
+        }
+        return "[]"
     }
 }

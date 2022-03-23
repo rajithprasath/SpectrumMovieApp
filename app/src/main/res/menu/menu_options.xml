@@ -7,4 +7,11 @@
         android:title="Search"
         android:icon="@android:drawable/ic_menu_search"
         app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/FavouriteMoviesActivity"
+        android:orderInCategory="200"
+        android:title="Favourite"
+        android:icon="@drawable/ic_favorite"
+        app:showAsAction="always"/>
 </menu>

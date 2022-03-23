@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.rajith.spectrummovieapp.R
 import com.rajith.spectrummovieapp.core.util.Constants
 import com.rajith.spectrummovieapp.core.util.Resource
@@ -22,7 +23,8 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
     lateinit var viewModel: MoviesViewModel
     private val args: MovieDetailFragmentArgs by navArgs()
     private val TAG = "MovieDetailFragment"
-
+    lateinit var movie: Movie
+    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MoviesListActivity).viewModel
@@ -49,15 +51,24 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
             }
         })
 
+        fab.setOnClickListener {
+            movie.let {
+                viewModel.saveMovie(movie)
+                Snackbar.make(view, "Movie saved successfully", Snackbar.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun showMovieDetails(movie: Movie) {
+        this.movie = movie
         Glide.with(this).load(Constants.IMAGE_BASE_URL + movie.backdrop_path).into(ivBackDrop)
         Glide.with(this).load(Constants.IMAGE_BASE_URL + movie.poster_path).into(ivPoster)
         tvTitle.text = movie.title
         tvReleaseDate.text = movie.release_date
         tvVoteCount.text = movie.vote_count.toString()
         tvOverview.text = movie.overview
+
+        fab.visibility = View.VISIBLE
     }
 
     private fun hideProgressBar() {

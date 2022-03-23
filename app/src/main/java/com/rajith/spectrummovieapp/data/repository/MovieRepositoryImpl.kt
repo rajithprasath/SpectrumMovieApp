@@ -1,6 +1,7 @@
 package com.rajith.spectrummovieapp.data.repository
 
 import com.rajith.spectrummovieapp.core.util.Resource
+import com.rajith.spectrummovieapp.data.local.MovieDao
 import com.rajith.spectrummovieapp.data.remote.MovieAPI
 import com.rajith.spectrummovieapp.domain.model.Movie
 import com.rajith.spectrummovieapp.domain.model.MoviesResponse
@@ -29,7 +30,7 @@ class MovieRepositoryImpl(
                 message = "Couldn't reach server, check your internet connection."
             ))
         }
-    } as Flow<Resource<MoviesResponse>>
+    }
 
     override fun getMovieDetail(movieId: Int): Flow<Resource<Movie>> = flow {
         emit(Resource.Loading())
@@ -46,7 +47,7 @@ class MovieRepositoryImpl(
                 message = "Couldn't reach server, check your internet connection."
             ))
         }
-    } as Flow<Resource<Movie>>
+    }
 
     override fun searchMovies(pageNumber: Int, query: String): Flow<Resource<MoviesResponse>> = flow {
         emit(Resource.Loading())
@@ -63,7 +64,7 @@ class MovieRepositoryImpl(
                 message = "Couldn't reach server, check your internet connection."
             ))
         }
-    } as Flow<Resource<MoviesResponse>>
+    }
 
 
 

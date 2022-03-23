@@ -12,7 +12,7 @@ data class Movie(
     val id: Int,
     val adult: Boolean,
     val backdrop_path: String,
-    val genre_ids: List<Int>,
+    val genre_ids: List<Int>? = null,
     val genres: List<Genre>,
     val original_language: String,
     val original_title: String,

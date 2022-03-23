@@ -1,7 +1,11 @@
 package com.rajith.spectrummovieapp.di
 
+import android.content.Context
+import androidx.room.Room
 import com.rajith.spectrummovieapp.data.remote.MovieAPI
 import com.rajith.spectrummovieapp.core.util.Constants
+import com.rajith.spectrummovieapp.data.local.MovieDao
+import com.rajith.spectrummovieapp.data.local.MovieDatabase
 import com.rajith.spectrummovieapp.data.repository.MovieRepositoryImpl
 import com.rajith.spectrummovieapp.domain.repository.MovieRepository
 import com.rajith.spectrummovieapp.domain.use_case.GetMovieDetailUseCase
@@ -11,6 +15,7 @@ import com.rajith.spectrummovieapp.domain.use_case.SearchMovieUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
