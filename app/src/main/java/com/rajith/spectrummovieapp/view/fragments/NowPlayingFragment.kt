@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rajith.spectrummovieapp.R
 import com.rajith.spectrummovieapp.core.util.Resource
-import com.rajith.spectrummovieapp.domain.model.Movie
+import com.rajith.spectrummovieapp.domain.model.MovieMapper.fillGenre
 import com.rajith.spectrummovieapp.view.activities.MoviesListActivity
 import com.rajith.spectrummovieapp.view.adapters.MovieAdapter
 import com.rajith.spectrummovieapp.viewmodel.MoviesViewModel
@@ -20,16 +20,17 @@ import kotlinx.android.synthetic.main.fragment_now_playing.*
 class NowPlayingFragment : Fragment(R.layout.fragment_now_playing) {
 
     lateinit var viewModel: MoviesViewModel
-    private lateinit var newsAdapter: MovieAdapter
+    private lateinit var movieAdapter: MovieAdapter
     private val TAG = "NowPlayingFragment"
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MoviesListActivity).viewModel
-        setupRecyclerView()
 
-        viewModel.getNowPlayingMovies()
-        newsAdapter.setOnItemClickListener {
+        setupRecyclerView()
+        observeData()
+
+        movieAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
                 putSerializable("movieId", it.id)
             }
@@ -38,13 +39,22 @@ class NowPlayingFragment : Fragment(R.layout.fragment_now_playing) {
                 bundle
             )
         }
+    }
 
+    private fun observeData() {
+        viewModel.getNowPlayingMovies()
         viewModel.nowPlayingMovies.observe(viewLifecycleOwner, Observer { response ->
-            when(response) {
+            when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let { movieResponse ->
-                        newsAdapter.differ.submitList(movieResponse.results)
+                        movieAdapter.differ.submitList(movieResponse.results.map {
+                            viewModel.genreList?.let { it1 ->
+                                it.fillGenre(
+                                    it1
+                                )
+                            }
+                        })
                     }
                 }
                 is Resource.Error -> {
@@ -69,9 +79,9 @@ class NowPlayingFragment : Fragment(R.layout.fragment_now_playing) {
     }
 
     private fun setupRecyclerView() {
-        newsAdapter = MovieAdapter()
+        movieAdapter = MovieAdapter()
         rvNowPlaying.apply {
-            adapter = newsAdapter
+            adapter = movieAdapter
             layoutManager = LinearLayoutManager(activity)
         }
     }

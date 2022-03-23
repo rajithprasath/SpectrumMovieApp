@@ -18,30 +18,35 @@ import kotlinx.android.synthetic.main.fragment_upcoming.*
 class UpcomingFragment : Fragment(R.layout.fragment_upcoming) {
 
     lateinit var viewModel: MoviesViewModel
-    private lateinit var newsAdapter: MovieAdapter
-    private val TAG = "NowPlayingFragment"
+    private lateinit var movieAdapter: MovieAdapter
+    private val TAG = "UpcomingFragment"
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MoviesListActivity).viewModel
-        setupRecyclerView()
 
-        viewModel.getUpcomingMovies()
-        newsAdapter.setOnItemClickListener {
+        setupRecyclerView()
+        observeData()
+
+        movieAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
                 putSerializable("movieId", it.id)
             }
             findNavController().navigate(
-                R.id.action_nowPlayingFragment_to_movieDetailFragment,
+                R.id.action_upcomingFragment_to_movieDetailFragment,
                 bundle
             )
         }
+    }
 
+    private fun observeData() {
+        viewModel.getUpcomingMovies()
         viewModel.upcomingMovies.observe(viewLifecycleOwner, Observer { response ->
-            when(response) {
+            when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let { movieResponse ->
-                        newsAdapter.differ.submitList(movieResponse.results)
+                        movieAdapter.differ.submitList(movieResponse.results)
                     }
                 }
                 is Resource.Error -> {
@@ -66,9 +71,9 @@ class UpcomingFragment : Fragment(R.layout.fragment_upcoming) {
     }
 
     private fun setupRecyclerView() {
-        newsAdapter = MovieAdapter()
+        movieAdapter = MovieAdapter()
         rvUpcoming.apply {
-            adapter = newsAdapter
+            adapter = movieAdapter
             layoutManager = LinearLayoutManager(activity)
         }
     }

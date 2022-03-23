@@ -29,6 +29,17 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MoviesListActivity).viewModel
         val movieId = args.movieId
+        observeData(movieId)
+
+        fab.setOnClickListener {
+            movie.let {
+                viewModel.saveMovie(movie)
+                Snackbar.make(view, "Movie saved successfully", Snackbar.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun observeData(movieId: Int){
         viewModel.getMovieDetail(movieId)
 
         viewModel.movie.observe(viewLifecycleOwner, Observer { response ->
@@ -50,13 +61,6 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
                 }
             }
         })
-
-        fab.setOnClickListener {
-            movie.let {
-                viewModel.saveMovie(movie)
-                Snackbar.make(view, "Movie saved successfully", Snackbar.LENGTH_SHORT).show()
-            }
-        }
     }
 
     private fun showMovieDetails(movie: Movie) {
@@ -67,7 +71,6 @@ class MovieDetailFragment : Fragment(R.layout.fragment_movie_detail) {
         tvReleaseDate.text = movie.release_date
         tvVoteCount.text = movie.vote_count.toString()
         tvOverview.text = movie.overview
-
         fab.visibility = View.VISIBLE
     }
 

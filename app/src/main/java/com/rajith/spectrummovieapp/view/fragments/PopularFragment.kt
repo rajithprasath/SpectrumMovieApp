@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rajith.spectrummovieapp.R
 import com.rajith.spectrummovieapp.core.util.Resource
+import com.rajith.spectrummovieapp.domain.model.MovieMapper.fillGenre
 import com.rajith.spectrummovieapp.view.activities.MoviesListActivity
 import com.rajith.spectrummovieapp.view.adapters.MovieAdapter
 import com.rajith.spectrummovieapp.viewmodel.MoviesViewModel
@@ -20,30 +21,41 @@ import kotlinx.android.synthetic.main.fragment_popular.*
 class PopularFragment : Fragment(R.layout.fragment_popular) {
 
     lateinit var viewModel: MoviesViewModel
-    private lateinit var newsAdapter: MovieAdapter
-    private val TAG = "NowPlayingFragment"
+    private lateinit var movieAdapter: MovieAdapter
+    private val TAG = "PopularFragment"
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MoviesListActivity).viewModel
-        setupRecyclerView()
 
-        viewModel.getPopularMovies()
-        newsAdapter.setOnItemClickListener {
+        setupRecyclerView()
+        observeData()
+
+        movieAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
                 putSerializable("movieId", it.id)
             }
             findNavController().navigate(
-                R.id.action_nowPlayingFragment_to_movieDetailFragment,
+                R.id.action_popularFragment_to_movieDetailFragment,
                 bundle
             )
         }
+    }
 
+    private fun observeData() {
+        viewModel.getPopularMovies()
         viewModel.popularMovies.observe(viewLifecycleOwner, Observer { response ->
-            when(response) {
+            when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let { movieResponse ->
-                        newsAdapter.differ.submitList(movieResponse.results)
+                        movieAdapter.differ.submitList(movieResponse.results.map {
+                            viewModel.genreList?.let { it1 ->
+                                it.fillGenre(
+                                    it1
+                                )
+                            }
+                        })
                     }
                 }
                 is Resource.Error -> {
@@ -57,6 +69,7 @@ class PopularFragment : Fragment(R.layout.fragment_popular) {
                 }
             }
         })
+
     }
 
     private fun hideProgressBar() {
@@ -68,9 +81,9 @@ class PopularFragment : Fragment(R.layout.fragment_popular) {
     }
 
     private fun setupRecyclerView() {
-        newsAdapter = MovieAdapter()
+        movieAdapter = MovieAdapter()
         rvPopular.apply {
-            adapter = newsAdapter
+            adapter = movieAdapter
             layoutManager = LinearLayoutManager(activity)
         }
     }

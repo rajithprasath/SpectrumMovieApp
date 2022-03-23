@@ -1,14 +1,13 @@
 package com.rajith.spectrummovieapp.di
 
-import com.rajith.spectrummovieapp.data.remote.MovieAPI
 import com.rajith.spectrummovieapp.core.util.Constants
+import com.rajith.spectrummovieapp.data.remote.MovieAPI
 import com.rajith.spectrummovieapp.data.repository.MovieNetworkRepositoryImpl
 import com.rajith.spectrummovieapp.domain.repository.MovieNetworkRepository
 import com.rajith.spectrummovieapp.domain.use_case.GetGenresUseCase
 import com.rajith.spectrummovieapp.domain.use_case.GetMovieDetailUseCase
 import com.rajith.spectrummovieapp.domain.use_case.GetMoviesUseCase
 import com.rajith.spectrummovieapp.domain.use_case.SearchMovieUseCase
-
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

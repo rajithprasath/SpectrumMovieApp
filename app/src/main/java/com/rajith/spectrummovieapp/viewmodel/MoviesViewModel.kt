@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rajith.spectrummovieapp.core.util.MovieCategory
 import com.rajith.spectrummovieapp.core.util.Resource
+import com.rajith.spectrummovieapp.domain.model.Genre
 import com.rajith.spectrummovieapp.domain.model.GenreResponse
 import com.rajith.spectrummovieapp.domain.model.Movie
 import com.rajith.spectrummovieapp.domain.model.MoviesResponse
@@ -32,7 +33,7 @@ class MoviesViewModel @Inject constructor(
     val genres: MutableLiveData<Resource<GenreResponse>> = MutableLiveData()
     val movie: MutableLiveData<Resource<Movie>> = MutableLiveData()
     val favoriteMovies: MutableLiveData<Resource<List<Movie>>> = MutableLiveData()
-
+    var genreList: List<Genre>? = mutableListOf()
 
     private var nowPlayingPage = 1
     private var popularPage = 1
@@ -165,6 +166,7 @@ class MoviesViewModel @Inject constructor(
     private fun handleGenresResponse(result: Resource<GenreResponse>, mutableData: MutableLiveData<Resource<GenreResponse>>){
         when(result) {
             is Resource.Success -> {
+                genreList = result.data?.genres
                 mutableData.postValue(Resource.Success(result.data))
             }
             is Resource.Error -> {
@@ -175,7 +177,4 @@ class MoviesViewModel @Inject constructor(
             }
         }
     }
-
-
-
 }

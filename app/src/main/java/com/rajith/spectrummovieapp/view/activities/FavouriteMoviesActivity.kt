@@ -21,13 +21,17 @@ class FavouriteMoviesActivity : AppCompatActivity() {
 
     val viewModel: MoviesViewModel by viewModels()
     private lateinit var movieAdapter: MovieAdapter
-    private val TAG = "MovieSearchActivity"
+    private val TAG = "FavouriteMoviesActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favourite_movies)
-        setupRecyclerView()
 
+        setupRecyclerView()
+        observeData()
+    }
+
+    private fun observeData(){
         viewModel.getFavouriteMovies()
         viewModel.favoriteMovies.observe(this, Observer { response ->
             when(response) {

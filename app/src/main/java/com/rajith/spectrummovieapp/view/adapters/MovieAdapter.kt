@@ -8,13 +8,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rajith.spectrummovieapp.R
-import com.rajith.spectrummovieapp.domain.model.Movie
 import com.rajith.spectrummovieapp.core.util.Constants.Companion.IMAGE_BASE_URL
+import com.rajith.spectrummovieapp.domain.model.Movie
 import kotlinx.android.synthetic.main.item_movie.view.*
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
-    inner class MovieViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         return MovieViewHolder(
@@ -29,7 +29,7 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = differ.currentList[position]
         holder.itemView.apply {
-            Glide.with(this).load(IMAGE_BASE_URL+movie.poster_path).into(ivPoster)
+            Glide.with(this).load(IMAGE_BASE_URL + movie.poster_path).into(ivPoster)
             tvTitle.text = movie.title
             tvReleaseDate.text = movie.release_date
             tvVoteCount.text = movie.vote_count.toString()
@@ -37,13 +37,11 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
                 onItemClickListener?.let { it(movie) }
             }
         }
-
-
     }
 
     private var onItemClickListener: ((Movie) -> Unit)? = null
 
-    fun setOnItemClickListener(listener : (Movie) -> Unit){
+    fun setOnItemClickListener(listener: (Movie) -> Unit) {
         onItemClickListener = listener
     }
 
@@ -51,7 +49,7 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
         return differ.currentList.size
     }
 
-    private val differCallBack = object : DiffUtil.ItemCallback<Movie>(){
+    private val differCallBack = object : DiffUtil.ItemCallback<Movie>() {
         override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem.id == newItem.id
         }

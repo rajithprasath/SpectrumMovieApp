@@ -47,6 +47,11 @@ class MovieSearchActivity : AppCompatActivity() {
             }
         }
 
+        observeData()
+
+    }
+
+    private fun observeData(){
         viewModel.searchMovies.observe(this, Observer { response ->
             when(response) {
                 is Resource.Success -> {
@@ -67,7 +72,6 @@ class MovieSearchActivity : AppCompatActivity() {
             }
         })
     }
-
     private fun hideProgressBar() {
         paginationProgressBar.visibility = View.GONE
     }

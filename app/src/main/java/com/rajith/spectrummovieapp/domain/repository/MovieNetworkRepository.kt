@@ -15,5 +15,4 @@ interface MovieNetworkRepository {
     fun searchMovies(pageNumber: Int, query: String): Flow<Resource<MoviesResponse>>
 
     fun getAllGenres(): Flow<Resource<GenreResponse>>
-
 }

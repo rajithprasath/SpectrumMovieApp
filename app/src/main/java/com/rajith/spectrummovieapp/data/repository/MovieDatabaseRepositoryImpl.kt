@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
-class MovieDatabaseRepositoryImpl (
+class MovieDatabaseRepositoryImpl(
     private val dao: MovieDao
 ) : MovieDatabaseRepository {
 

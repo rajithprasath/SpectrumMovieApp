@@ -49,4 +49,5 @@ interface MovieAPI {
         @Query("api_key")
         apiKey: String = API_KEY
     ): GenreResponse
+
 }

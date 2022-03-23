@@ -20,30 +20,35 @@ import kotlinx.android.synthetic.main.fragment_top_rated.*
 class TopRatedFragment : Fragment(R.layout.fragment_top_rated) {
 
     lateinit var viewModel: MoviesViewModel
-    private lateinit var newsAdapter: MovieAdapter
-    private val TAG = "NowPlayingFragment"
+    private lateinit var movieAdapter: MovieAdapter
+    private val TAG = "TopRatedFragment"
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MoviesListActivity).viewModel
-        setupRecyclerView()
 
-        viewModel.getTopRatedMovies()
-        newsAdapter.setOnItemClickListener {
+        setupRecyclerView()
+        observeData()
+
+        movieAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
                 putSerializable("movieId", it.id)
             }
             findNavController().navigate(
-                R.id.action_nowPlayingFragment_to_movieDetailFragment,
+                R.id.action_topRatedFragment_to_movieDetailFragment,
                 bundle
             )
         }
+    }
 
+    private fun observeData() {
+        viewModel.getTopRatedMovies()
         viewModel.topRatedMovies.observe(viewLifecycleOwner, Observer { response ->
-            when(response) {
+            when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let { movieResponse ->
-                        newsAdapter.differ.submitList(movieResponse.results)
+                        movieAdapter.differ.submitList(movieResponse.results)
                     }
                 }
                 is Resource.Error -> {
@@ -68,9 +73,9 @@ class TopRatedFragment : Fragment(R.layout.fragment_top_rated) {
     }
 
     private fun setupRecyclerView() {
-        newsAdapter = MovieAdapter()
+        movieAdapter = MovieAdapter()
         rvTopRated.apply {
-            adapter = newsAdapter
+            adapter = movieAdapter
             layoutManager = LinearLayoutManager(activity)
         }
     }
