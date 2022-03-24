@@ -2,16 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/MovieSearchActivity"
+        android:id="@+id/movieSearchFragment"
         android:orderInCategory="200"
         android:title="Search"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/ic_search"
+        android:iconTint="@color/white"
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/FavouriteMoviesActivity"
+        android:id="@+id/favouriteMoviesFragment"
         android:orderInCategory="200"
         android:title="Favourite"
-        android:icon="@drawable/ic_favorite"
+        android:icon="@drawable/ic_favorite_border"
         app:showAsAction="always"/>
 </menu>

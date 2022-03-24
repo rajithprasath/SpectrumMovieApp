@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="colorPrimary">#121e2d</color>
+    <color name="colorPrimaryDark">#121e2d</color>
+    <color name="colorAccent">#3bdeee</color>
+    <color name="darkBlue">#0F161E</color>
+    <color name="darkBlue_50">#80042f45</color>
+    <color name="grey">#9b9b9b</color>
+
+    <color name="spectrumPrimaryColor">#5468FF</color>
+    <color name="spectrumSecondaryColor">#5468FF</color>
+
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -7,9 +17,15 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="colorPrimary">#121e2d</color>
-    <color name="colorPrimaryDark">#121e2d</color>
-    <color name="colorAccent">#3bdeee</color>
-    <color name="darkBlue">#042f45</color>
-    <color name="grey">#9b9b9b</color>
+
+    --------UI---------
+    <color name="primaryColor">#030E2E</color>
+    <color name="secondaryColor">#262A34</color>
+    <color name="assistiveColor">#5468FF</color>
+    <color name="assistiveColor2">#5738DE</color>
+
+    --------Typography---------
+    <color name="textPrimaryColor">#FFFFFF</color>
+    <color name="textSecondaryColor">#66676D</color>
+    <color name="titlesTextColor">#F5E3E0EA</color>
 </resources>

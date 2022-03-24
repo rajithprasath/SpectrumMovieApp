@@ -37,4 +37,8 @@ class MovieDatabaseRepositoryImpl(
             )
         }
     }
+
+    override suspend fun exists(movieId: Int): Boolean {
+        return dao.exists(movieId)
+    }
 }

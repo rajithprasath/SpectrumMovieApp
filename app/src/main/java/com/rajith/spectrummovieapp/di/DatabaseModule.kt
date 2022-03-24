@@ -9,6 +9,7 @@ import com.rajith.spectrummovieapp.data.local.MovieDatabase.Companion.DATABASE_N
 import com.rajith.spectrummovieapp.data.repository.MovieDatabaseRepositoryImpl
 import com.rajith.spectrummovieapp.data.util.GsonParser
 import com.rajith.spectrummovieapp.domain.repository.MovieDatabaseRepository
+import com.rajith.spectrummovieapp.domain.use_case.CheckMovieExistUseCase
 import com.rajith.spectrummovieapp.domain.use_case.GetFavouriteMoviesUseCase
 import com.rajith.spectrummovieapp.domain.use_case.SaveMovieUseCase
 import dagger.Module
@@ -45,6 +46,11 @@ object DatabaseModule {
         return GetFavouriteMoviesUseCase(repository)
     }
 
+    @Provides
+    @Singleton
+    fun provideCheckMovieExistUseCase(repository: MovieDatabaseRepository): CheckMovieExistUseCase {
+        return CheckMovieExistUseCase(repository)
+    }
 
     @Provides
     @Singleton

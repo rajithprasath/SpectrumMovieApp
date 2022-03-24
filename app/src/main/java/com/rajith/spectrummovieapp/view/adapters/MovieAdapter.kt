@@ -33,6 +33,9 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
             tvTitle.text = movie.title
             tvReleaseDate.text = movie.release_date
             tvVoteCount.text = movie.vote_count.toString()
+            tvVoteAverage.text = movie.vote_average.toString()
+            val genresText = movie.genres.joinToString { it -> "${it.name}" }
+            tvGenres.text = genresText
             setOnClickListener {
                 onItemClickListener?.let { it(movie) }
             }

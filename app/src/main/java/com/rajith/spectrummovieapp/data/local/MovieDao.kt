@@ -14,4 +14,7 @@ interface MovieDao {
 
     @Query("SELECT * FROM movies")
     suspend fun getFavouriteMovies(): List<Movie>
+
+    @Query("SELECT EXISTS (SELECT 1 FROM movies WHERE id = :id)")
+    suspend fun exists(id: Int): Boolean
 }

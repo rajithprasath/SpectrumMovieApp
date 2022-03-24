@@ -4,4 +4,22 @@
     <string name="category_popular">Popular</string>
     <string name="category_top_rated">Top Rated</string>
     <string name="category_upcoming">Upcoming</string>
+
+    <string name="saved_text">Movie saved successfully</string>
+    <string name="already_saved_text">Movie already saved to favourites</string>
+
+    <string name="genres_tools">Comedy, drama, action, adventure, fantasy, animation, family</string>
+    <string name="search_icon">search icon</string>
+    <string name="sort_icon">sort icon</string>
+    <string name="layout_icon">layout icon</string>
+    <string name="movie_poster">Movie poster</string>
+    <string name="favourite_icon">Favourite icon</string>
+    <string name="category_icon">Category icon</string>
+    <string name="rating_icon">rating icon</string>
+    <string name="date_icon">date icon</string>
+    <string name="language_icon">language icon</string>
+    <string name="app_logo">App logo</string>
+    <string name="search_label">Search</string>
+    <string name="fav_label">Favourites</string>
+    <string name="hint">Movie title</string>
 </resources>

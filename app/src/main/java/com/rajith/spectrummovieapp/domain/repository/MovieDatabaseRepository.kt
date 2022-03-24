@@ -9,4 +9,6 @@ interface MovieDatabaseRepository {
     suspend fun upsert(movie: Movie)
 
     suspend fun getFavoriteMovies(): Flow<Resource<List<Movie>>>
+
+    suspend fun exists(movieId: Int): Boolean
 }

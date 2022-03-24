@@ -6,5 +6,7 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class MovieApplication : Application(){
-
+    companion object {
+        var genreList: List<Genre>? = null
+    }
 }

@@ -5,6 +5,7 @@ import androidx.room.TypeConverter
 import com.google.gson.reflect.TypeToken
 import com.rajith.spectrummovieapp.data.util.JsonParser
 import com.rajith.spectrummovieapp.domain.model.Genre
+import com.rajith.spectrummovieapp.domain.model.SpokenLanguage
 
 @ProvidedTypeConverter
 class Converters(
@@ -45,5 +46,21 @@ class Converters(
             ) ?: "[]"
         }
         return "[]"
+    }
+
+    @TypeConverter
+    fun fromLanguageJson(json: String): List<SpokenLanguage> {
+        return jsonParser.fromJson<ArrayList<SpokenLanguage>>(
+            json,
+            object : TypeToken<ArrayList<SpokenLanguage>>(){}.type
+        ) ?: emptyList()
+    }
+
+    @TypeConverter
+    fun toLanguageJson(languages: List<SpokenLanguage>): String {
+        return jsonParser.toJson(
+            languages,
+            object : TypeToken<ArrayList<SpokenLanguage>>(){}.type
+        ) ?: "[]"
     }
 }

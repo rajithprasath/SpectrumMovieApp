@@ -1,28 +1,33 @@
 package com.rajith.spectrummovieapp.view.fragments
 
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import android.widget.AbsListView
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
+import com.rajith.spectrummovieapp.MovieApplication
 import com.rajith.spectrummovieapp.R
 import com.rajith.spectrummovieapp.core.util.Constants
+import com.rajith.spectrummovieapp.core.util.Constants.Companion.SEARCH_NEWS_TIME_DELAY
 import com.rajith.spectrummovieapp.core.util.Resource
 import com.rajith.spectrummovieapp.domain.model.MovieMapper.fillGenre
 import com.rajith.spectrummovieapp.view.activities.MoviesListActivity
 import com.rajith.spectrummovieapp.view.adapters.MovieAdapter
 import com.rajith.spectrummovieapp.viewmodel.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_now_playing.paginationProgressBar
-import kotlinx.android.synthetic.main.fragment_upcoming.*
+import kotlinx.android.synthetic.main.activity_movies_list.*
+import kotlinx.android.synthetic.main.fragment_movie_search.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class UpcomingFragment : Fragment(R.layout.fragment_upcoming) {
+class MovieSearchFragment : Fragment(R.layout.fragment_movie_search) {
 
     lateinit var viewModel: MoviesViewModel
     private lateinit var movieAdapter: MovieAdapter
@@ -30,8 +35,24 @@ class UpcomingFragment : Fragment(R.layout.fragment_upcoming) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MoviesListActivity).viewModel
-        setHasOptionsMenu(true)
+
         setupRecyclerView()
+
+        var job: Job? = null
+        etSearch.addTextChangedListener { editable ->
+            job?.cancel()
+            job = MainScope().launch {
+                delay(SEARCH_NEWS_TIME_DELAY)
+                editable?.let {
+                    if (editable.toString().isNotEmpty()) {
+                        viewModel.searchMovies(editable.toString())
+                    }
+                }
+            }
+        }
+
+        tbSearch.setNavigationOnClickListener { findNavController().navigateUp() }
+
         observeData()
 
         movieAdapter.setOnItemClickListener {
@@ -39,34 +60,32 @@ class UpcomingFragment : Fragment(R.layout.fragment_upcoming) {
                 putSerializable("movieId", it.id)
             }
             findNavController().navigate(
-                R.id.action_upcomingFragment_to_movieDetailFragment,
+                R.id.action_movieSearchFragment_to_movieDetailFragment,
                 bundle
             )
         }
     }
 
     private fun observeData() {
-        viewModel.getUpcomingMovies()
-        viewModel.upcomingMovies.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.searchMovies.observe(this, Observer { response ->
             when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let { movieResponse ->
                         movieAdapter.differ.submitList(movieResponse.results.map {
-                            viewModel.genreList?.let { it1 ->
+                            MovieApplication.genreList?.let { it1 ->
                                 it.fillGenre(
                                     it1
                                 )
                             }
                         })
                         val totalPages = movieResponse.total_results / Constants.QUERY_PAGE_SIZE + 2
-                        isLastPage = viewModel.upcomingPage == totalPages
+                        isLastPage = viewModel.searchMoviePage == totalPages
                     }
                 }
                 is Resource.Error -> {
                     hideProgressBar()
                     response.message?.let { message ->
-                        Snackbar.make(root, message, Snackbar.LENGTH_SHORT).show()
                     }
                 }
                 is Resource.Loading -> {
@@ -75,6 +94,7 @@ class UpcomingFragment : Fragment(R.layout.fragment_upcoming) {
             }
         })
     }
+
 
     var isLoading = false
     var isLastPage = false
@@ -95,17 +115,17 @@ class UpcomingFragment : Fragment(R.layout.fragment_upcoming) {
             val isTotalMoreThanVisible = totalItemCount >= Constants.QUERY_PAGE_SIZE
             val shouldPaginate = isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
                     isTotalMoreThanVisible && isScrolling
-            if(shouldPaginate) {
-                viewModel.getUpcomingMovies()
+            if (shouldPaginate) {
+                viewModel.searchMovies(etSearch.text.toString())
                 isScrolling = false
             } else {
-                rvUpcoming.setPadding(0, 0, 0, 0)
+                rvMovieSearch.setPadding(0, 0, 0, 0)
             }
         }
 
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
-            if(newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                 isScrolling = true
             }
         }
@@ -123,27 +143,11 @@ class UpcomingFragment : Fragment(R.layout.fragment_upcoming) {
 
     private fun setupRecyclerView() {
         movieAdapter = MovieAdapter()
-        rvUpcoming.apply {
+        rvMovieSearch.apply {
             adapter = movieAdapter
             layoutManager = LinearLayoutManager(activity)
-            addOnScrollListener(this@UpcomingFragment.scrollListener)
+            addOnScrollListener(this@MovieSearchFragment.scrollListener)
         }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.movieSearchFragment -> {
-                findNavController().navigate(
-                    R.id.action_upcomingFragment_to_movieSearchFragment
-                )
-            }
-            R.id.favouriteMoviesFragment -> {
-                findNavController().navigate(
-                    R.id.action_upcomingFragment_to_favouriteMoviesFragment
-                )
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
 
