@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.AbsListView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,22 +13,18 @@ import com.rajith.spectrummovieapp.R
 import com.rajith.spectrummovieapp.core.util.Constants
 import com.rajith.spectrummovieapp.core.util.Resource
 import com.rajith.spectrummovieapp.domain.model.MovieMapper.fillGenre
-import com.rajith.spectrummovieapp.view.activities.MoviesListActivity
 import com.rajith.spectrummovieapp.view.adapters.MovieAdapter
-import com.rajith.spectrummovieapp.viewmodel.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_now_playing.paginationProgressBar
 import kotlinx.android.synthetic.main.fragment_top_rated.*
 
 @AndroidEntryPoint
-class TopRatedFragment : Fragment(R.layout.fragment_top_rated) {
+class TopRatedFragment : BaseFragment() {
 
-    lateinit var viewModel: MoviesViewModel
-    private lateinit var movieAdapter: MovieAdapter
+    override fun getLayoutId() = R.layout.fragment_top_rated
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as MoviesListActivity).viewModel
         setHasOptionsMenu(true)
         setupRecyclerView()
         observeData()
@@ -45,7 +40,7 @@ class TopRatedFragment : Fragment(R.layout.fragment_top_rated) {
         }
     }
 
-    private fun observeData() {
+    override fun observeData() {
         viewModel.getTopRatedMovies()
         viewModel.topRatedMovies.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
@@ -111,17 +106,17 @@ class TopRatedFragment : Fragment(R.layout.fragment_top_rated) {
         }
     }
 
-    private fun hideProgressBar() {
+    override fun hideProgressBar() {
         paginationProgressBar.visibility = View.GONE
         isLoading = false
     }
 
-    private fun showProgressBar() {
+    override fun showProgressBar() {
         paginationProgressBar.visibility = View.VISIBLE
         isLoading = true
     }
 
-    private fun setupRecyclerView() {
+    override fun setupRecyclerView() {
         movieAdapter = MovieAdapter()
         rvTopRated.apply {
             adapter = movieAdapter

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.AbsListView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,22 +13,18 @@ import com.rajith.spectrummovieapp.R
 import com.rajith.spectrummovieapp.core.util.Constants
 import com.rajith.spectrummovieapp.core.util.Resource
 import com.rajith.spectrummovieapp.domain.model.MovieMapper.fillGenre
-import com.rajith.spectrummovieapp.view.activities.MoviesListActivity
 import com.rajith.spectrummovieapp.view.adapters.MovieAdapter
-import com.rajith.spectrummovieapp.viewmodel.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_now_playing.paginationProgressBar
 import kotlinx.android.synthetic.main.fragment_upcoming.*
 
 @AndroidEntryPoint
-class UpcomingFragment : Fragment(R.layout.fragment_upcoming) {
+class UpcomingFragment : BaseFragment() {
 
-    lateinit var viewModel: MoviesViewModel
-    private lateinit var movieAdapter: MovieAdapter
+    override fun getLayoutId() = R.layout.fragment_upcoming
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as MoviesListActivity).viewModel
         setHasOptionsMenu(true)
         setupRecyclerView()
         observeData()
@@ -45,7 +40,7 @@ class UpcomingFragment : Fragment(R.layout.fragment_upcoming) {
         }
     }
 
-    private fun observeData() {
+    override fun observeData() {
         viewModel.getUpcomingMovies()
         viewModel.upcomingMovies.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
@@ -95,7 +90,7 @@ class UpcomingFragment : Fragment(R.layout.fragment_upcoming) {
             val isTotalMoreThanVisible = totalItemCount >= Constants.QUERY_PAGE_SIZE
             val shouldPaginate = isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
                     isTotalMoreThanVisible && isScrolling
-            if(shouldPaginate) {
+            if (shouldPaginate) {
                 viewModel.getUpcomingMovies()
                 isScrolling = false
             } else {
@@ -105,23 +100,23 @@ class UpcomingFragment : Fragment(R.layout.fragment_upcoming) {
 
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
-            if(newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
                 isScrolling = true
             }
         }
     }
 
-    private fun hideProgressBar() {
+    override fun hideProgressBar() {
         paginationProgressBar.visibility = View.GONE
         isLoading = false
     }
 
-    private fun showProgressBar() {
+    override fun showProgressBar() {
         paginationProgressBar.visibility = View.VISIBLE
         isLoading = true
     }
 
-    private fun setupRecyclerView() {
+    override fun setupRecyclerView() {
         movieAdapter = MovieAdapter()
         rvUpcoming.apply {
             adapter = movieAdapter

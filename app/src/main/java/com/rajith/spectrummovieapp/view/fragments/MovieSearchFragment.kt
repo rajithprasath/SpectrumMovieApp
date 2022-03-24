@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AbsListView
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,9 +14,7 @@ import com.rajith.spectrummovieapp.core.util.Constants
 import com.rajith.spectrummovieapp.core.util.Constants.Companion.SEARCH_NEWS_TIME_DELAY
 import com.rajith.spectrummovieapp.core.util.Resource
 import com.rajith.spectrummovieapp.domain.model.MovieMapper.fillGenre
-import com.rajith.spectrummovieapp.view.activities.MoviesListActivity
 import com.rajith.spectrummovieapp.view.adapters.MovieAdapter
-import com.rajith.spectrummovieapp.viewmodel.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_movies_list.*
 import kotlinx.android.synthetic.main.fragment_movie_search.*
@@ -27,14 +24,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MovieSearchFragment : Fragment(R.layout.fragment_movie_search) {
+class MovieSearchFragment : BaseFragment() {
 
-    lateinit var viewModel: MoviesViewModel
-    private lateinit var movieAdapter: MovieAdapter
+    override fun getLayoutId() = R.layout.fragment_movie_search
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as MoviesListActivity).viewModel
 
         setupRecyclerView()
 
@@ -66,7 +61,7 @@ class MovieSearchFragment : Fragment(R.layout.fragment_movie_search) {
         }
     }
 
-    private fun observeData() {
+    override fun observeData() {
         viewModel.searchMovies.observe(this, Observer { response ->
             when (response) {
                 is Resource.Success -> {
@@ -131,17 +126,17 @@ class MovieSearchFragment : Fragment(R.layout.fragment_movie_search) {
         }
     }
 
-    private fun hideProgressBar() {
+    override fun hideProgressBar() {
         paginationProgressBar.visibility = View.GONE
         isLoading = false
     }
 
-    private fun showProgressBar() {
+    override fun showProgressBar() {
         paginationProgressBar.visibility = View.VISIBLE
         isLoading = true
     }
 
-    private fun setupRecyclerView() {
+    override fun setupRecyclerView() {
         movieAdapter = MovieAdapter()
         rvMovieSearch.apply {
             adapter = movieAdapter

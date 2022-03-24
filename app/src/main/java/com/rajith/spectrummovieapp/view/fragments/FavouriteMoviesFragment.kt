@@ -2,28 +2,23 @@ package com.rajith.spectrummovieapp.view.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rajith.spectrummovieapp.R
 import com.rajith.spectrummovieapp.core.util.Resource
-import com.rajith.spectrummovieapp.view.activities.MoviesListActivity
 import com.rajith.spectrummovieapp.view.adapters.MovieAdapter
-import com.rajith.spectrummovieapp.viewmodel.MoviesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_favourite_movies.*
 
 
 @AndroidEntryPoint
-class FavouriteMoviesFragment : Fragment(R.layout.fragment_favourite_movies) {
+class FavouriteMoviesFragment : BaseFragment() {
 
-    lateinit var viewModel: MoviesViewModel
-    private lateinit var movieAdapter: MovieAdapter
+    override fun getLayoutId() = R.layout.fragment_favourite_movies
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = (activity as MoviesListActivity).viewModel
         setHasOptionsMenu(true)
         setupRecyclerView()
         observeData()
@@ -41,7 +36,7 @@ class FavouriteMoviesFragment : Fragment(R.layout.fragment_favourite_movies) {
         }
     }
 
-    private fun observeData() {
+    override fun observeData() {
         viewModel.getFavouriteMovies()
         viewModel.favoriteMovies.observe(this, Observer { response ->
             when (response) {
@@ -64,15 +59,15 @@ class FavouriteMoviesFragment : Fragment(R.layout.fragment_favourite_movies) {
     }
 
 
-    private fun hideProgressBar() {
+    override fun hideProgressBar() {
         progressBar.visibility = View.GONE
     }
 
-    private fun showProgressBar() {
+    override fun showProgressBar() {
         progressBar.visibility = View.VISIBLE
     }
 
-    private fun setupRecyclerView() {
+    override fun setupRecyclerView() {
         movieAdapter = MovieAdapter()
         rvFavouriteMovies.apply {
             adapter = movieAdapter
